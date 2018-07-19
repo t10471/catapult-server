@@ -49,8 +49,8 @@ TMP_DIR=$(mktemp -d "/tmp/${0##*/}.tmp.XXXXXX")
 
 printf "\\n\\ttcatapult-server buid start\\n\\n" $BUILD_DIR
 printf "\\tBUILD_DIR = %s \\n" $BUILD_DIR
-printf "\\tDEPENDENCIES_DIR = %s \\n\\n" $DEPENDENCIES_DIR
-printf "\\TMP_DIR = %s \\n\\n" $TMP_DIR
+printf "\\tDEPENDENCIES_DIR = %s \\n" $DEPENDENCIES_DIR
+printf "\\tTMP_DIR = %s \\n\\n" $TMP_DIR
 
 function darwin_install_dependencies () {
   mkdir -p $DEPENDENCIES_DIR
@@ -80,9 +80,9 @@ function darwin_install_googletest () {
   GOOGLETEST_VERSION=1.8.0
   GOOGLETEST_INSTALL_DIR=${DEPENDENCIES_DIR}/google-test/${GOOGLETEST_VERSION}
   if [ -z "$GTEST_ROOT" ]; then
-    printf "\\tInstall Boost %s.\\n" GOOGLETEST_VERSION
+    printf "\\tInstall GoogleTest %s.\\n" GOOGLETEST_VERSION
 
-    mkdir -p ${BOOST_INSTALL_DIR}
+    mkdir -p ${GOOGLETEST_INSTALL_DIR}
     cd $TMP_DIR
     git clone git@github.com:google/googletest.git
     cd googletest
@@ -94,9 +94,9 @@ function darwin_install_googletest () {
     make install
     export GTEST_ROOT=${GOOGLETEST_INSTALL_DIR}
 
-    printf "\\tSuccessfully installed Boost %s.\\n" GOOGLETEST_VERSION
+    printf "\\tSuccessfully installed GoogleTest %s.\\n" GOOGLETEST_VERSION
   else
-    printf "\\tBoost already installed.\\n"
+    printf "\\tGoogleTest already installed.\\n"
   fi
 }
 
