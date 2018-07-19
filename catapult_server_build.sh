@@ -32,8 +32,8 @@ atexit() {
   [[ -n ${tmpfile-} ]] && rm -f "$tmpfile"
 }
 
-trap atexit EXIT
-trap 'rc=$?; trap - EXIT; atexit; exit $?' INT PIPE TERM
+# trap atexit EXIT
+# trap 'rc=$?; trap - EXIT; atexit; exit $?' INT PIPE TERM
 
 
 
@@ -45,7 +45,7 @@ fi
 ARCH=$( uname )
 : ${BUILD_DIR:=${PWD}/_build}
 : ${DEPENDENCIES_DIR:=${PWD}/_build_dependencies}
-TMP_DIR=$(mktemp -d "/tmp/${0##*/}.tmp.XXXXXX")
+TMP_DIR=$(mktemp -d "/tmp/catapult-XXXXXX")
 
 printf "\\n\\ttcatapult-server buid start\\n\\n" $BUILD_DIR
 printf "\\tBUILD_DIR = %s \\n" $BUILD_DIR
@@ -54,7 +54,7 @@ printf "\\tTMP_DIR = %s \\n\\n" $TMP_DIR
 
 function darwin_install_dependencies () {
   mkdir -p $DEPENDENCIES_DIR
-  darwin_install_googletest
+  # darwin_install_googletest
   darwin_install_boost
   darwin_install_mongodb
   darwin_install_mongo_c_driver
@@ -111,6 +111,7 @@ function darwin_install_boost () {
     wget https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.gz
     tar xfz boost_1_65_1.tar.gz
     cd boost_1_65_1
+    ./bootstrap.sh
     ./b2 install -j4 -–prefix=${BOOST_INSTALL_DIR} --exec-prefix==${BOOST_INSTALL_DIR} --libdir=${BOOST_INSTALL_DIR}/lib --includedir=${BOOST_INSTALL_DIR}/include
     export BOOST_ROOT=$BOOST_INSTALL_DIR
     export Boost_INCLUDE_DIR=${BOOST_INSTALL_DIR}/include
